@@ -1,0 +1,4 @@
+psutil
+requests
+pytest
+requests_mock
