@@ -51,8 +51,17 @@ In SSL/TLS communication, the server sends its certificate to the client during 
 To summarize, the cert.pem file contains the X.509 certificate for the server, which includes the public key of the server. The key.pem file contains the private key of the server, which is used to decrypt data that was encrypted with the public key.
 ```
 
+# prerequisites
+```shell
+pip install -r requirements.txt
+```
+
 # to run the program
+```
 python phonehome.py
+```
 
 # to run the tests
+```
 pytest test-phonehome.py
+```
