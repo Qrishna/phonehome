@@ -9,8 +9,8 @@ def main():
     # cert = ('certificates/full_chain.pem', 'certificates/private_key.pem')
 
     # prod
-    thing_id = 2
-    token = "YfmSl6Cb_6yT5JHH0achxcQDvoRnHBN7XQ8hCBNBA9A"
+    thing_id = 1
+    token = "27b19e11c45adc6461822eaeed7f89d68844f35c701e04cb1bf86769693e7b7b52"
     url = "https://manjusapkota.com/phonehome/"
 
     # dev
@@ -35,7 +35,7 @@ def main():
             if not registration_success:
                 log("main():: Registration was not successful!")
                 try_registration = False
-                return
+
         else:
             log("main():: Try registration is False. So not trying to do registration...")
 
@@ -43,7 +43,7 @@ def main():
         message = get_info_for_phone_home(thing_id, token)
         phone_home_success, received_configs = phone_home(url, headers, message, cert)
         try_registration = True if phone_home_success else False
-        if received_configs:
+        if received_configs and received_configs["config"] is not None:
             results_of_policies_applied = apply_policies(received_configs)
             # log("result of applying config %s" % results_of_policies_applied)
             new_info = get_info_for_phone_home(thing_id, token)

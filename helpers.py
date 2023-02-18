@@ -108,7 +108,8 @@ def get_info_for_phone_home(thing_id, token):
 
 
 def registration():
-    url = "http://localhost:8000/things"
+    url = "https://manjusapkota.com/things"
+    # url = "http://localhost:8000/things"
     headers = {'Content-Type': 'application/json'}
     message = get_info_registration()
     try:
