@@ -65,3 +65,32 @@ python phonehome.py
 ```
 pytest test-phonehome.py
 ```
+
+#### references
+#### 100% free and open source to get ip address information, gets ip address
+#### You can use it without limit (even if you're doing millions of requests per minute.
+https://www.ipify.org/ 
+
+#### Free for non-commercial use, no API key required. Gets geolocation
+### This endpoint is limited to 45 requests per minute from an IP address.
+
+https://ip-api.com/
+
+```text
+
+# def registration():
+# client side
+# when the program starts attempt to first register the device
+# if the device is already registered, phone home
+# if the device is not registered, then register it and then  phone home
+
+# django side
+# done:: when the device is registered it should be set to Active False (Inactive from the admin page)
+# done:: when the admin sets the device state to Active, then it can start receiving phone home events otherwise it can not
+
+# done:: after the device is registered and set to active and a phone home event is received,the state of the device should be set to normal
+
+# if the device's configs have been updated and the device has not phoned home and applied its configs yet,
+# then its state should be set to pending
+
+```

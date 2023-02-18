@@ -1,91 +1,57 @@
-import os
-import json
-import requests
-import psutil
-import platform
-import time
-from datetime import datetime, timezone
 
-debug = True
-
-
-def get_utc_timestamp():
-    return datetime.now(timezone.utc).isoformat()
-
-
-def log(message):
-    print("%s - %s" % (str(get_utc_timestamp()), message))
-
-
-def phone_home(thing_id, token, url, headers, cert=None):
-    # Get system information for the message message
-    hostname = platform.node()
-    mac_address = ':'.join(psutil.net_if_addrs()['en0'][0].address.split(':')).lower()
-    release = platform.release()
-    platform_name = platform.system().lower()
-    total_memory = psutil.virtual_memory().total
-    free_memory = psutil.virtual_memory().available
-    version = platform.version()
-    uptime = int(time.time() - psutil.boot_time())
-    load_average = os.getloadavg()
-    disk_space = psutil.disk_usage('/').free
-
-    # Create the message message
-    message = {
-        "thing_id": thing_id,
-        "token": token,
-        "message": {
-            "hostname": hostname,
-            "mac_address": mac_address,
-            "release": release,
-            "platform": platform_name,
-            "total_memory": total_memory,
-            "free_memory": free_memory,
-            "version": version,
-            "uptime": uptime,
-            "load_average": load_average,
-            "disk_space": {"free": disk_space}
-        }
-    }
-
-    # Send the POST request and handle errors
-    try:
-        response = requests.post(url, data=json.dumps(message), headers=headers, cert=cert, verify='certificates/ca.pem')
-        response.raise_for_status()
-        if debug:
-            log("Phoned home with this message: \n%s" % json.dumps(message, indent=4))
-        log("Phone home successful. The response received was: %s" % response.text)
-    except requests.exceptions.RequestException as e:
-        log("Phone home failed: %s" % str(e))
+from helpers import *
 
 
 # MAIN
 def main():
     interval = 30  # 30 seconds
-    thing_id = 2
-    # token = "1b87af3292ac69091ac89595716ffa3a026419bee4a6aa0f69ec8de6a1f968c9"
-    token = "YfmSl6Cb_6yT5JHH0achxcQDvoRnHBN7XQ8hCBNBA9A"
-    # Override with environment variables if they exist
-    if 'THING_ID' in os.environ:
-        thing_id = os.environ['THING_ID']
-    if 'TOKEN' in os.environ:
-        token = os.environ['TOKEN']
-
-    # Set the URL and headers for the request
-    # url = "http://localhost:8000/phonehome/"
-    url = "https://manjusapkota.com/phonehome/"
     headers = {'Content-Type': 'application/json'}
+    # cert = ('certificates/full_chain.pem', 'certificates/private_key.pem')
 
-    cert = ('certificates/full_chain.pem', 'certificates/private_key.pem')
-    # Run the phone home function at the specified interval
+    # prod
+    thing_id = 2
+    token = "YfmSl6Cb_6yT5JHH0achxcQDvoRnHBN7XQ8hCBNBA9A"
+    url = "https://manjusapkota.com/phonehome/"
+
+    # dev
+    # thing_id = 1
+    # token = "18c5f4d9c10729dc8f77280d69ac9d07d45193725cb6bc3fd998f7b736c91175"
+    # url = "http://127.0.0.1:8000/phonehome/"
+    try_registration = True
     while True:
-        log("Starting Phone Home...")
-        phone_home(thing_id, token, url, headers, cert)
+        log("main():: Starting main loop ...")
+        if 'THING_ID' in os.environ:
+            thing_id = os.environ['THING_ID']
+            log("main():: Found thing id in env variable: %s" % thing_id)
+        if 'TOKEN' in os.environ:
+            token = os.environ['TOKEN']
+            log("main():: Found thing token in env variable %s" % token)
+        if try_registration:
+            log("main():: Try registration is True. So trying to do registration...")
+            registration_success, registered_id = registration()
+            if registration_success and registered_id:
+                log("main():: New thing id from registration: %s" % registered_id)
+                thing_id = registered_id
+            if not registration_success:
+                log("main():: Registration was not successful!")
+                try_registration = False
+                return
+        else:
+            log("main():: Try registration is False. So not trying to do registration...")
 
+        log("main():: thing id is :%s" % thing_id)
+        message = get_info_for_phone_home(thing_id, token)
+        phone_home_success, received_configs = phone_home(url, headers, message, cert)
+        try_registration = True if phone_home_success else False
+        if received_configs:
+            results_of_policies_applied = apply_policies(received_configs)
+            # log("result of applying config %s" % results_of_policies_applied)
+            new_info = get_info_for_phone_home(thing_id, token)
+            new_info["message"]["policy_execution_results"] = results_of_policies_applied
+            phone_home(url, headers, new_info, cert)
         time.sleep(interval)
 
 
 if __name__ == "__main__":
     main()
-
 
