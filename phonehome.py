@@ -10,7 +10,7 @@ def main():
 
     # prod
     thing_id = 1
-    token = "27b19e11c45adc6461822eaeed7f89d68844f35c701e04cb1bf86769693e7b7b52"
+    token = "7b19e11c45adc6461822eaeed7f89d68844f35c701e04cb1bf86769693e7b7b5"
     url = "https://manjusapkota.com/phonehome/"
 
     # dev
