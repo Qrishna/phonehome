@@ -9,23 +9,23 @@ def main():
     # cert = ('certificates/full_chain.pem', 'certificates/private_key.pem')
 
     # prod
-    thing_id = 1
-    token = "7b19e11c45adc6461822eaeed7f89d68844f35c701e04cb1bf86769693e7b7b5"
-    url = "https://manjusapkota.com/phonehome/"
-
-    # dev
     # thing_id = 1
     # token = "18c5f4d9c10729dc8f77280d69ac9d07d45193725cb6bc3fd998f7b736c91175"
-    # url = "http://127.0.0.1:8000/phonehome/"
+    # url = "https://manjusapkota.com/phonehome/"
+
+    # dev
+    thing_id = 1
+    token = "18c5f4d9c10729dc8f77280d69ac9d07d45193725cb6bc3fd998f7b736c91175"
+    url = "http://127.0.0.1:8000/phonehome/"
     try_registration = True
     while True:
         log("main():: Starting main loop ...")
-        if 'THING_ID' in os.environ:
-            thing_id = os.environ['THING_ID']
-            log("main():: Found thing id in env variable: %s" % thing_id)
-        if 'TOKEN' in os.environ:
-            token = os.environ['TOKEN']
-            log("main():: Found thing token in env variable %s" % token)
+        # if 'THING_ID' in os.environ:
+        #     thing_id = os.environ['THING_ID']
+        #     log("main():: Found thing id in env variable: %s" % thing_id)
+        # if 'TOKEN' in os.environ:
+        #     token = os.environ['TOKEN']
+        #     log("main():: Found thing token in env variable %s" % token)
         if try_registration:
             log("main():: Try registration is True. So trying to do registration...")
             registration_success, registered_id = registration()
