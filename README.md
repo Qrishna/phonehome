@@ -149,7 +149,12 @@ curl -X POST http://localhost:8000/phonehome/ -H 'Content-Type: application/json
 Invoke-WebRequest -Uri 'https://manjusapkota.com/phonehome/' -Method POST -Headers @{ 'Content-Type' = 'application/json' } -Body '{"thing_id": 1, "token": "18c5f4d9c10729dc8f77280d69ac9d07d45193725cb6bc3fd998f7b736c91175", "message": {"ip_address": "192.168.0.23", "public_ip": "68.116.145.93", "geo_location": {"city": "Fort Worth", "region": "Texas", "country": "United States", "latitude": 32.7463, "longitude": -97.267}, "release": "21.6.0", "free_memory": 6962831360, "version": "Darwin Kernel Version 21.6.0: Wed Aug 10 14:25:27 PDT 2022; root:xnu-8020.141.5~2/RELEASE_X86_64", "uptime": 129989, "load_average": [2.3984375, 2.21484375, 2.2548828125], "disk_space": {"free": 795286036480}, "policy_execution_results": {"stdout": "hello! I am a shell script\nthe hostname is JungBahadurs-MacBook-Pro.local\nthe date is Fri Feb 17 18:35:46 CST 2023\n", "stderr": "Oh no.. something went wrong\n oops that thing failed as well"}}}'
 ```
 
-#### This command is for Ilya
+#### Ilya:: This command is for Ilya
 ```shell
+
+### To create a new device
+curl -X POST -H "Content-Type: application/json" -d '{"hostname":"Illya-PC-WIN10.local","macaddress":"c8:60:00:6c:98:03"}' https://manjusapkota.com/things/
+
+### to send phone home events
 curl -X POST https://manjusapkota.com/phonehome/ -H 'Content-Type: application/json' -d '{"thing_id": 1, "token": "18c5f4d9c10729dc8f77280d69ac9d07d45193725cb6bc3fd998f7b736c91175", "message": {"ip_address": "192.168.0.23", "public_ip": "68.116.145.93", "geo_location": {"city": "Fort Worth", "region": "Texas", "country": "United States", "latitude": 32.7463, "longitude": -97.267}, "release": "21.6.0", "free_memory": 6962831360, "version": "Darwin Kernel Version 21.6.0: Wed Aug 10 14:25:27 PDT 2022; root:xnu-8020.141.5~2/RELEASE_X86_64", "uptime": 129989, "load_average": [2.3984375, 2.21484375, 2.2548828125], "disk_space": {"free": 795286036480}, "policy_execution_results": {"stdout": "hello! I am a shell script\nthe hostname is JungBahadurs-MacBook-Pro.local\nthe date is Fri Feb 17 18:35:46 CST 2023\n", "stderr": "Oh no.. something went wrong\n oops that thing failed as well"}}}'
 ```
