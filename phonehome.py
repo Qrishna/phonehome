@@ -9,14 +9,14 @@ def main():
     # cert = ('certificates/full_chain.pem', 'certificates/private_key.pem')
 
     # prod
-    # thing_id = 1
-    # token = "18c5f4d9c10729dc8f77280d69ac9d07d45193725cb6bc3fd998f7b736c91175"
-    # url = "https://manjusapkota.com/phonehome/"
-
-    # dev
     thing_id = 1
     token = "18c5f4d9c10729dc8f77280d69ac9d07d45193725cb6bc3fd998f7b736c91175"
-    url = "http://127.0.0.1:8000/phonehome/"
+    url = "https://manjusapkota.com/phonehome/"
+
+    # dev
+    # thing_id = 1
+    # token = "18c5f4d9c10729dc8f77280d69ac9d07d45193725cb6bc3fd998f7b736c91175"
+    # url = "http://127.0.0.1:8000/phonehome/"
     try_registration = True
     while True:
         log("main():: Starting main loop ...")
