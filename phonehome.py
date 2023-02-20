@@ -4,7 +4,7 @@ from helpers import *
 
 # MAIN
 def main():
-    interval = 30  # 30 seconds
+    interval = 120  # 30 seconds
     headers = {'Content-Type': 'application/json'}
     # cert = ('certificates/full_chain.pem', 'certificates/private_key.pem')
 
@@ -17,7 +17,7 @@ def main():
     # thing_id = 1
     # token = "18c5f4d9c10729dc8f77280d69ac9d07d45193725cb6bc3fd998f7b736c91175"
     # url = "http://127.0.0.1:8000/phonehome/"
-    try_registration = True
+    try_registration = False
     while True:
         log("main():: Starting main loop ...")
         # if 'THING_ID' in os.environ:
@@ -42,7 +42,8 @@ def main():
         log("main():: thing id is :%s" % thing_id)
         message = get_info_for_phone_home(thing_id, token)
         phone_home_success, received_configs = phone_home(url, headers, message, cert)
-        try_registration = True if phone_home_success else False
+
+        # try_registration = True if phone_home_success else False
         if received_configs and received_configs["config"] is not None:
             results_of_policies_applied = apply_policies(received_configs)
             # log("result of applying config %s" % results_of_policies_applied)
