@@ -26,7 +26,7 @@ def get_info_registration():
         "macaddress": ':'.join(
             ['{:02x}'.format((uuid.getnode() >> ele) & 0xff) for ele in range(0, 8 * 6, 8)][::-1]),
         "public_ip": get_public_ip_address(),
-        "ip": ':'.join(psutil.net_if_addrs()['en0'][0].address.split(':')).lower(),
+        "ip": ':'.join(psutil.net_if_addrs()['en0'][0].address.split(':')).lower() if platform.system() == 'Darwin' else ':'.join(psutil.net_if_addrs()['eth0'][0].address.split(':')).lower(),
         "platform": platform.system().lower(),
         "network": get_network_info(),
         "info": {
@@ -93,7 +93,7 @@ def get_info_for_phone_home(thing_id, token):
         "thing_id": thing_id,
         "token": token,
         "message": {
-            "ip_address": ':'.join(psutil.net_if_addrs()['en0'][0].address.split(':')).lower(),
+            "ip_address": ':'.join(psutil.net_if_addrs()['en0'][0].address.split(':')).lower() if platform.system() == 'Darwin' else ':'.join(psutil.net_if_addrs()['eth0'][0].address.split(':')).lower(),
             "public_ip": get_public_ip_address(),
             "geo_location": get_geolocation_info(get_public_ip_address()),
             "release": platform.release(),
